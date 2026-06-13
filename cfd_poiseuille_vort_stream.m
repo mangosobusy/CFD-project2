@@ -131,7 +131,6 @@ while iter_cnt < max_iter && res_omg > tol_res
                     (psi_new(i+1,j)+psi_new(i-1,j))/dx^2 + ...
                     (psi_new(i,j+1)+psi_new(i,j-1))/dy^2 - rhs_psi(i,j) ...
                     ) / (2/dx^2+2/dy^2);
-                sor_err = max(sor_err, abs(psi_new(i,j)-psi_old));
             end
         end
         % 统一施加流函数边界
@@ -192,6 +191,9 @@ for k=1:length(x_idx)
 end
 sgtitle(sprintf('Re=%d 二维泊肃叶流动沿程速度剖面演化（二阶迎风格式）',Re));
 
+% 自动保存速度剖面图
+saveas(gcf,'poiseuille_velocity_profile.png');
+
 % 出口截面误差定量计算
 u_out = u(Nx,:);
 rel_err = abs(u_out-u_exact)/Uin;
@@ -220,3 +222,6 @@ xlabel('x'); ylabel('y/H');
 axis tight;
 
 colormap(jet);
+
+% 自动保存流函数+涡量云图
+saveas(gcf,'poiseuille_psi_omega_contour.png');
